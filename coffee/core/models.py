@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 
@@ -27,7 +28,7 @@ class Price(models.Model):
     )
 
     def __str__(self):
-        return self.price
+        return str(self.price)
 
     class Meta:
         verbose_name = 'Цена'
@@ -59,7 +60,7 @@ class Topping(models.Model):
     price = models.ForeignKey(
         'Price',
         verbose_name='Цена сиропа',
-        on_delete=models.CASCADE()
+        on_delete=models.CASCADE
     )
 
     def __str__(self):
@@ -70,7 +71,60 @@ class Topping(models.Model):
         verbose_name_plural = 'Сироп'
 
 class Profile(models.Model):
-    pass
+    name = models.CharField(
+        max_length=64,
+        verbose_name='Имя'
+    )
+    email = models.EmailField(
+        verbose_name='Почта'
+    )
+    password = models.CharField(
+        max_length=24,
+        verbose_name='Пароль'
+    )
+
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Профиль'
+        verbose_name_plural = 'Профиль'
+
 
 class Order(models.Model):
-    pass
+    profile = models.ForeignKey(
+        'Profile',
+        on_delete=models.CASCADE,
+        verbose_name='Профиль',
+    )
+    coffee = models.ForeignKey(
+        'Coffee',
+        on_delete=models.CASCADE,
+        verbose_name='Кофе'
+    )
+    volume = models.ForeignKey(
+        'Volume',
+        on_delete=models.CASCADE,
+        verbose_name='Объем'
+    )
+    topping = models.ForeignKey(
+        'Topping',
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        verbose_name='Сироп'
+    )
+    def get_total_price(self):
+        try:
+            return self.volume.price.price + self.topping.price.price
+        except AttributeError:
+            return self.volume.price.price
+
+    get_total_price.short_description = 'Цена заказа'
+    def __str__(self):
+        return f'{self.profile} {self.coffee}'
+
+    class Meta:
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'

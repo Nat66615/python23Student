@@ -6,6 +6,15 @@
 {% endblock %}
 
 {% block content %}
-<h2>Главная страница, основной контент</h2>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aliquid delectus distinctio, error est iste laboriosam maxime porro quae quia quis, recusandae saepe vel voluptate.</p>
+        <h2>Детали</h2>
+            {% for order in orders %}
+                <p><strong>Профиль:</strong>{{ order.profile }}</p>
+                <p><strong>Кофе:</strong>{{ order.coffee }}</p>
+                <p><strong>Объем:</strong>{{ order.volume.title }}</p>
+                <p><strong>Цена:</strong>{{ order.volume.price.price }}</p>
+                    {% if order.topping %}
+                        <p><strong>Сироп:</strong>{{ order.topping.title }}</p>
+                    {% endif %}
+                <p><strong>Общая цена:</strong>{{ order.get_total_price }}</p>
+            {% endfor %}
 {% endblock %}

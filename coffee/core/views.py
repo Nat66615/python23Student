@@ -1,5 +1,7 @@
 from django.shortcuts import render
+from .models import Order
 
 # Create your views here.
 def home(request):
-    return render(request, 'core/home.html')
+    orders = Order.objects.all()
+    return render(request, 'core/home.html', {"orders": orders})
