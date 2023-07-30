@@ -1,20 +1,32 @@
 <!-- HOME -->
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
 Главная страница - Мой сайт
 {% endblock %}
 
 {% block content %}
-        <h2>Детали</h2>
-            {% for order in orders %}
-                <p><strong>Профиль:</strong>{{ order.profile }}</p>
-                <p><strong>Кофе:</strong>{{ order.coffee }}</p>
-                <p><strong>Объем:</strong>{{ order.volume.title }}</p>
-                <p><strong>Цена:</strong>{{ order.volume.price.price }}</p>
-                    {% if order.topping %}
-                        <p><strong>Сироп:</strong>{{ order.topping.title }}</p>
-                    {% endif %}
-                <p><strong>Общая цена:</strong>{{ order.get_total_price }}</p>
+    <div class="container">
+        <h1 class="product__title">Продукты</h1>
+        <div class="products">
+            {% for product in products %}
+            <a href="#" class="product__link">
+            <div class="product__card">
+                <img src="{% static 'img/product.png' %}" alt="Кофе">
+                <div class="product__details">
+                    <h3 class="product__title">{{ product.title }}</h3>
+                    <p>{{ product.price }}</p>
+                    <div class="products__count">
+                        <button class="choice__btn minus">-</button>
+                        <input type="text" class="count" value="1">
+                        <button class="choice__btn plus">+</button>
+                    </div>
+                </div>
+                <button class="buy">Купить</button>
+            </div>
+            </a>
             {% endfor %}
+        </div>
+    </div>
 {% endblock %}
