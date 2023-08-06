@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 
 
@@ -70,7 +70,7 @@ class Topping(models.Model):
         verbose_name = 'Сироп'
         verbose_name_plural = 'Сироп'
 
-class Profile(models.Model):
+class Profile(AbstractUser) :
     name = models.CharField(
         max_length=64,
         verbose_name='Имя'
@@ -83,6 +83,7 @@ class Profile(models.Model):
         verbose_name='Пароль'
     )
 
+    REQUIRED_FIELDS = ['name', 'password']
 
     def __str__(self):
         return self.name

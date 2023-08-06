@@ -53,6 +53,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTH_USER_MODEL = 'core.Profile'
+
+
 ROOT_URLCONF = 'coffee.urls'
 
 TEMPLATES = [
